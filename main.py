@@ -20,6 +20,13 @@ class TicTacToe:
         self.player = randint(0, 1)
 
         self.line_indices_array = []
+        self.generate_possible_wins()
+
+        self.winner = None
+        self.game_steps = 0
+        self.font = pygame.font.SysFont('arial', int(CELL_SIZE / 4), True)
+
+    def generate_possible_wins(self):
         # horizontal
         for i in range(10):
             for j in range(6):
@@ -36,10 +43,6 @@ class TicTacToe:
         for i in range(6):
             for j in range(9, 3, -1):  # reverse order
                 self.line_indices_array.append([(i + k, j - k) for k in range(5)])
-
-        self.winner = None
-        self.game_steps = 0
-        self.font = pygame.font.SysFont('arial', int(CELL_SIZE / 4), True)
 
     def check_winner(self):
         for line_indicates in self.line_indices_array:
@@ -69,7 +72,6 @@ class TicTacToe:
     def draw_winner(self):
         if self.winner:
             pygame.draw.line(self.game.screen, 'red', *self.winner_line, int(CELL_SIZE // 8))
-
 
     def draw(self):
         self.game.screen.blit(self.field_image, (0, 0))
