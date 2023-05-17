@@ -12,11 +12,11 @@ CELL_CENTER = vec2(CELL_SIZE / 2)
 class TicTacToe:
     def __init__(self, game):
         self.game = game
-        self.field_image = self.get_scaled_image(path='resources/board.jpg', res=[WIN_SIZE] * 2)
+        self.board_image = self.get_scaled_image(path='resources/board.jpg', res=[WINDOW_SIZE] * 2)
         self.O_image = self.get_scaled_image(path='resources/o_placeholder.jpg', res=[CELL_SIZE] * 2)
         self.X_image = self.get_scaled_image(path='resources/x_placeholder.jpg', res=[CELL_SIZE] * 2)
 
-        self.game_array = [[INF] * 10 for i in range(10)]
+        self.board = [[INF] * BOARD_SIZE for i in range(BOARD_SIZE)]
         self.player = randint(0, 1)
 
         self.line_indices_array = []
@@ -52,7 +52,7 @@ class TicTacToe:
                 self.winner_line = [vec2(line_indicates[0][::-1]) * CELL_SIZE + CELL_CENTER,
                                     vec2(line_indicates[4][::-1]) * CELL_SIZE + CELL_CENTER]
 
-    def run_game_precess(self):
+    def run_game_process(self):
         current_cell = vec2(pygame.mouse.get_pos()) / CELL_SIZE
         col, row = map(int, current_cell)
         left_click = pygame.mouse.get_pressed()[0]
@@ -71,7 +71,10 @@ class TicTacToe:
 
     def draw_winner(self):
         if self.winner:
-            pygame.draw.line(self.game.screen, 'red', *self.winner_line, int(CELL_SIZE // 8))
+            pygame.draw.line(self.game.screen,
+                             'red',
+                             *self.winner_line,
+                             int(CELL_SIZE // 8))
 
     def draw(self):
         self.game.screen.blit(self.field_image, (0, 0))
@@ -93,7 +96,7 @@ class TicTacToe:
     def run(self):
         self.print_caption()
         self.draw()
-        self.run_game_precess()
+        self.run_game_process()
 
 
 class Game:
